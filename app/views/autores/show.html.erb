@@ -1,0 +1,40 @@
+<div class="mb-6">
+  <%= link_to "← Volver a Autores", autores_path, class: "text-amber-600 hover:underline" %>
+</div>
+
+<div class="bg-white rounded-lg shadow p-6 mb-6">
+  <h1 class="text-3xl font-bold text-amber-900 mb-2"><%= @author.apellido_y_nombre %></h1>
+  <div class="flex space-x-4">
+    <%= link_to "Editar", edit_autor_path(@author), class: "text-blue-600 hover:underline" %>
+    <%= link_to "Eliminar", @author, method: :delete, data: { turbo_method: :delete, turbo_confirm: "¿Está seguro?" }, class: "text-red-600 hover:underline" %>
+  </div>
+</div>
+
+<h2 class="text-xl font-bold text-amber-900 mb-4">Libros de este autor (<%= @books.count %>)</h2>
+
+<% if @books.any? %>
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <table class="w-full">
+      <thead class="bg-amber-100">
+        <tr>
+          <th class="px-4 py-3 text-left">Título</th>
+          <th class="px-4 py-3 text-left">Copias</th>
+          <th class="px-4 py-3 text-right">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @books.each do |book| %>
+          <tr class="border-b hover:bg-amber-50">
+            <td class="px-4 py-3"><%= book.titulo %></td>
+            <td class="px-4 py-3"><%= book.copias.count %></td>
+            <td class="px-4 py-3 text-right">
+              <%= link_to "Ver", book, class: "text-amber-600 hover:underline" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <p class="text-gray-500">Este autor no tiene libros registrados.</p>
+<% end %>

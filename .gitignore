@@ -1,0 +1,58 @@
+# Ignore bundler config.
+/.bundle
+
+# Ignore all environment files.
+/.env*
+!/.env*.erb
+
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Ignore pidfiles, but keep the directory.
+/tmp/pids/*
+!/tmp/pids/
+!/tmp/pids/.keep
+
+# Ignore storage (uploaded files in development)
+/storage/*
+!/storage/.keep
+/tmp/storage/*
+!/tmp/storage/
+!/tmp/storage/.keep
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key
+/config/credentials/*.key
+
+# Ignore node_modules
+/node_modules
+
+# Ignore precompiled assets
+/public/assets
+
+# Ignore yarn files
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
+
+# Ignore development database
+/db/*.sqlite3
+/db/*.sqlite3-*
+
+# Ignore IDE/editor files
+.idea/
+*.swp
+*.swo
+*~
+.vscode/
+
+# Ignore macOS files
+.DS_Store
+
+# Ignore Tailwind build output (regenerated)
+/app/assets/builds/*
+!/app/assets/builds/.keep
+

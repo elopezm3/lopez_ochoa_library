@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <title>Biblioteca López Ochoa</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="utf-8">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css">
+    <%= stylesheet_link_tag "tom_select_custom", "data-turbo-track": "reload" %>
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="bg-amber-50 min-h-screen">
+    <nav class="bg-amber-800 text-white shadow-lg">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="flex justify-between items-center py-4">
+          <a href="/" class="text-xl font-bold">📚 Biblioteca López Ochoa</a>
+          <div class="flex space-x-6">
+            <%= link_to "Inicio", root_path, class: "hover:text-amber-200" %>
+            <%= link_to "Libros", libros_path, class: "hover:text-amber-200" %>
+            <%= link_to "Autores", autores_path, class: "hover:text-amber-200" %>
+            <%= link_to "Copias", copias_path, class: "hover:text-amber-200" %>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4 py-8">
+      <% if notice %>
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+          <%= notice %>
+        </div>
+      <% end %>
+      <% if alert %>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <%= alert %>
+        </div>
+      <% end %>
+      
+      <%= yield %>
+    </main>
+
+    <footer class="bg-amber-800 text-white text-center py-4 mt-8">
+      <p>Biblioteca López Ochoa © <%= Date.today.year %></p>
+    </footer>
+  </body>
+</html>

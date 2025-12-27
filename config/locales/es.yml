@@ -1,0 +1,61 @@
+es:
+  activerecord:
+    models:
+      autor:
+        one: Autor
+        other: Autores
+      libro:
+        one: Libro
+        other: Libros
+      copia:
+        one: Copia
+        other: Copias
+    attributes:
+      autor:
+        nombre: Nombre
+        apellido: Apellido
+      libro:
+        titulo: Título
+        autor: Autor
+      copia:
+        libro: Libro
+        prestamo: Préstamo
+        fecha: Fecha
+    errors:
+      messages:
+        blank: no puede estar vacío
+        invalid: no es válido
+  
+  helpers:
+    submit:
+      create: Crear
+      update: Actualizar
+    label:
+      search: Buscar
+  
+  views:
+    common:
+      actions: Acciones
+      edit: Editar
+      delete: Eliminar
+      back: Volver
+      confirm_delete: "¿Está seguro de que desea eliminar esto?"
+      no_records: No hay registros
+    autores:
+      title: Autores
+      new: Nuevo Autor
+      edit: Editar Autor
+    libros:
+      title: Libros
+      new: Nuevo Libro
+      edit: Editar Libro
+      copias: Copias
+    copias:
+      title: Copias
+      new: Nueva Copia
+      edit: Editar Copia
+      prestar: Prestar
+      devolver: Devolver
+      disponible: Disponible
+      prestado_a: "Prestado a:"
+

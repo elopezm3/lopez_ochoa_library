@@ -1,0 +1,31 @@
+<div class="flex justify-between items-center mb-6">
+  <h1 class="text-3xl font-bold text-amber-900">Autores</h1>
+  <%= link_to "➕ Nuevo Autor", new_autor_path, class: "bg-amber-600 text-white px-4 py-2 rounded hover:bg-amber-700" %>
+</div>
+
+<div class="bg-white rounded-lg shadow overflow-hidden">
+  <table class="w-full">
+    <thead class="bg-amber-100">
+      <tr>
+        <th class="px-4 py-3 text-left">Apellido</th>
+        <th class="px-4 py-3 text-left">Nombre</th>
+        <th class="px-4 py-3 text-left">Libros</th>
+        <th class="px-4 py-3 text-right">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @authors.each do |author| %>
+        <tr class="border-b hover:bg-amber-50">
+          <td class="px-4 py-3"><%= author.apellido %></td>
+          <td class="px-4 py-3"><%= author.nombre %></td>
+          <td class="px-4 py-3"><%= author.libros.count %></td>
+          <td class="px-4 py-3 text-right space-x-2">
+            <%= link_to "Ver", author, class: "text-amber-600 hover:underline" %>
+            <%= link_to "Editar", edit_autor_path(author), class: "text-blue-600 hover:underline" %>
+            <%= link_to "Eliminar", author, method: :delete, data: { turbo_method: :delete, turbo_confirm: "¿Está seguro?" }, class: "text-red-600 hover:underline" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

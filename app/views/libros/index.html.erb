@@ -1,0 +1,53 @@
+<div class="flex justify-between items-center mb-6">
+  <h1 class="text-3xl font-bold text-amber-900">Libros</h1>
+  <%= link_to "➕ Nuevo Libro", new_libro_path, class: "bg-amber-600 text-white px-4 py-2 rounded hover:bg-amber-700" %>
+</div>
+
+<div class="bg-white rounded-lg shadow p-4 mb-6">
+  <%= form_with url: libros_path, method: :get, class: "flex space-x-2" do %>
+    <%= text_field_tag :buscar, params[:buscar], placeholder: "Buscar por título o autor...", class: "flex-1 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500" %>
+    <%= hidden_field_tag :sort, params[:sort] if params[:sort].present? %>
+    <%= hidden_field_tag :direction, params[:direction] if params[:direction].present? %>
+    <%= submit_tag "Buscar", class: "bg-amber-600 text-white px-4 py-2 rounded hover:bg-amber-700 cursor-pointer" %>
+    <% if params[:buscar].present? || params[:sort].present? %>
+      <%= link_to "Limpiar", libros_path, class: "bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400" %>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="bg-white rounded-lg shadow overflow-hidden">
+  <table class="w-full">
+    <thead class="bg-amber-100">
+      <tr>
+        <th class="px-4 py-3 text-left">
+          <%= sortable_column('titulo', 'Título', @sort_column, @sort_direction) %>
+        </th>
+        <th class="px-4 py-3 text-left">
+          <%= sortable_column('autor', 'Autor', @sort_column, @sort_direction) %>
+        </th>
+        <th class="px-4 py-3 text-left">
+          <%= sortable_column('copias', 'Copias', @sort_column, @sort_direction) %>
+        </th>
+        <th class="px-4 py-3 text-right">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @books.each do |book| %>
+        <tr class="border-b hover:bg-amber-50">
+          <td class="px-4 py-3"><%= book.titulo %></td>
+          <td class="px-4 py-3"><%= book.autor.apellido_y_nombre %></td>
+          <td class="px-4 py-3">
+            <%= book.copias.count %>
+            <% available = book.copias.where(prestamo: [nil, '']).count %>
+            <span class="text-sm text-gray-500">(<%= available %> disponibles)</span>
+          </td>
+          <td class="px-4 py-3 text-right space-x-2">
+            <%= link_to "Ver", book, class: "text-amber-600 hover:underline" %>
+            <%= link_to "Editar", edit_libro_path(book), class: "text-blue-600 hover:underline" %>
+            <%= link_to "Eliminar", book, method: :delete, data: { turbo_method: :delete, turbo_confirm: "¿Está seguro?" }, class: "text-red-600 hover:underline" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

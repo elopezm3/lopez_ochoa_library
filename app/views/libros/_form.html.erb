@@ -1,0 +1,28 @@
+<div class="bg-white rounded-lg shadow p-6 max-w-lg">
+  <%= form_with model: libro, class: "space-y-4" do |f| %>
+    <% if libro.errors.any? %>
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+        <ul>
+          <% libro.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div>
+      <%= f.label :titulo, "Título", class: "block text-gray-700 font-medium mb-1" %>
+      <%= f.text_field :titulo, class: "w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500" %>
+    </div>
+
+    <div>
+      <%= f.label :autor_id, "Autor", class: "block text-gray-700 font-medium mb-1" %>
+      <%= f.collection_select :autor_id, Autor.order(:apellido, :nombre), :id, :apellido_y_nombre, { prompt: "Seleccione un autor..." }, { class: "w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500", data: { controller: "tom-select", tom_select_placeholder_value: "Buscar autor..." } } %>
+    </div>
+
+    <div>
+      <%= f.submit class: "bg-amber-600 text-white px-6 py-2 rounded hover:bg-amber-700 cursor-pointer" %>
+    </div>
+  <% end %>
+</div>
+

@@ -1,0 +1,62 @@
+<div class="text-center mb-8">
+  <h1 class="text-4xl font-bold text-amber-900 mb-2">📚 Biblioteca López Ochoa</h1>
+  <p class="text-amber-700">Sistema de gestión de inventario de libros</p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+  <div class="bg-white rounded-lg shadow p-6 text-center">
+    <div class="text-4xl font-bold text-amber-600"><%= @total_books %></div>
+    <div class="text-gray-600">Libros</div>
+  </div>
+  <div class="bg-white rounded-lg shadow p-6 text-center">
+    <div class="text-4xl font-bold text-amber-600"><%= @total_authors %></div>
+    <div class="text-gray-600">Autores</div>
+  </div>
+  <div class="bg-white rounded-lg shadow p-6 text-center">
+    <div class="text-4xl font-bold text-green-600"><%= @available_copies %></div>
+    <div class="text-gray-600">Copias Disponibles</div>
+  </div>
+  <div class="bg-white rounded-lg shadow p-6 text-center">
+    <div class="text-4xl font-bold text-orange-600"><%= @loaned_copies %></div>
+    <div class="text-gray-600">Copias Prestadas</div>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+  <div class="bg-white rounded-lg shadow p-6">
+    <h2 class="text-xl font-bold text-amber-900 mb-4">Últimos Libros Añadidos</h2>
+    <% if @recent_books.any? %>
+      <ul class="space-y-2">
+        <% @recent_books.each do |book| %>
+          <li class="flex justify-between items-center border-b pb-2">
+            <span><%= link_to book.titulo, book, class: "text-amber-700 hover:underline" %></span>
+            <span class="text-gray-500 text-sm"><%= book.autor.apellido_y_nombre %></span>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-gray-500">No hay libros registrados.</p>
+    <% end %>
+  </div>
+
+  <div class="bg-white rounded-lg shadow p-6">
+    <h2 class="text-xl font-bold text-amber-900 mb-4">Préstamos Activos</h2>
+    <% if @recent_loans.any? %>
+      <ul class="space-y-2">
+        <% @recent_loans.each do |copy| %>
+          <li class="flex justify-between items-center border-b pb-2">
+            <span><%= link_to copy.libro.titulo, copy.libro, class: "text-amber-700 hover:underline" %></span>
+            <span class="text-orange-600 text-sm">→ <%= copy.prestamo %></span>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-gray-500">No hay préstamos activos.</p>
+    <% end %>
+  </div>
+</div>
+
+<div class="flex justify-center space-x-4">
+  <%= link_to "➕ Nuevo Libro", new_libro_path, class: "bg-amber-600 text-white px-6 py-3 rounded-lg hover:bg-amber-700" %>
+  <%= link_to "👤 Nuevo Autor", new_autor_path, class: "bg-amber-600 text-white px-6 py-3 rounded-lg hover:bg-amber-700" %>
+</div>
