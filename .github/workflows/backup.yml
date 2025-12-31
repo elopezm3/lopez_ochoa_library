@@ -1,0 +1,70 @@
+name: Database Backup
+
+on:
+  # Run weekly on Sunday at midnight UTC
+  schedule:
+    - cron: '0 0 * * 0'
+  
+  # Allow manual trigger from GitHub UI
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    
+    env:
+      RAILS_ENV: production
+      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3.2'
+          bundler-cache: true
+      
+      - name: Export database to CSV
+        run: |
+          bundle exec rails backup:export_csv
+          
+      - name: Get timestamp
+        id: timestamp
+        run: echo "timestamp=$(date +%Y%m%d_%H%M%S)" >> $GITHUB_OUTPUT
+      
+      - name: Create backup ZIP
+        run: |
+          cd tmp/backups
+          BACKUP_DIR=$(ls -t | head -1)
+          zip -r backup_${{ steps.timestamp.outputs.timestamp }}.zip $BACKUP_DIR
+          mv backup_${{ steps.timestamp.outputs.timestamp }}.zip ../../
+          
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: backup-${{ steps.timestamp.outputs.timestamp }}
+          name: "Backup ${{ steps.timestamp.outputs.timestamp }}"
+          body: |
+            Automated database backup
+            
+            **Tables included:**
+            - autores.csv
+            - libros.csv
+            - copias.csv
+            
+            **Created:** ${{ steps.timestamp.outputs.timestamp }}
+          files: backup_${{ steps.timestamp.outputs.timestamp }}.zip
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Clean up old releases (keep last 10)
+        uses: dev-drprasad/delete-older-releases@v0.3.2
+        with:
+          keep_latest: 10
+          delete_tags: true
+          delete_tag_pattern: backup-
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

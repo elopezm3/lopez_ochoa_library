@@ -59,3 +59,8 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+# Backup utilities
+gem 'csv'  # Required for Ruby 3.4+
+gem 'rubyzip', require: 'zip'
+# gem 'google-apis-drive_v3'  # Uncomment if using Google Drive backups
