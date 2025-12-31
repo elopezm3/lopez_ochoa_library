@@ -2,8 +2,8 @@ require 'csv'
 
 puts "Cargando datos desde CSVs..."
 
-# Path to CSV files (adjust if needed)
-csv_path = Rails.root.join('..') # Parent directory
+# Path to CSV files (in Rails root directory)
+csv_path = Rails.root
 
 # Load Autores
 authors_file = csv_path.join('Autores.csv')
