@@ -48,7 +48,7 @@ jobs:
           mv backup_${{ steps.timestamp.outputs.timestamp }}.zip ../../
           
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: backup-${{ steps.timestamp.outputs.timestamp }}
           name: "Backup ${{ steps.timestamp.outputs.timestamp }}"
