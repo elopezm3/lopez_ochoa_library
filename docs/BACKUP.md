@@ -6,11 +6,16 @@ The Biblioteca López Ochoa application uses **GitHub Actions** to automatically
 
 ## How It Works
 
-1. **Automated Schedule**: Runs every Sunday at midnight UTC
+1. **Automated Schedule**: Runs every 5 days at midnight UTC
+   - **Why every 5 days?** Supabase free tier pauses after 7 days of inactivity. Running every 5 days ensures the database stays active (the backup connection counts as activity).
 2. **Manual Trigger**: Can be triggered anytime from GitHub Actions UI
 3. **Export Process**: Connects to Supabase and exports all tables (autores, libros, copias) to CSV
 4. **Storage**: Creates a ZIP file and uploads as a GitHub Release
 5. **Cleanup**: Automatically keeps only the last 10 backups
+
+### Supabase Activity
+
+**Important:** The backup connection to Supabase **counts as activity**, which prevents the database from pausing. By running every 5 days (instead of 7), we ensure there's a safety buffer in case a backup is delayed or fails.
 
 ## Setup
 
@@ -68,7 +73,7 @@ It includes:
 
 ### Automatic Schedule
 
-Backups run automatically every **Sunday at 00:00 UTC**. No action required.
+Backups run automatically every **5 days at 00:00 UTC**. This ensures Supabase stays active (free tier pauses after 7 days of inactivity). No action required.
 
 ## Local Backup (Development)
 

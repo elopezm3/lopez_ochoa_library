@@ -100,9 +100,9 @@ See [RENDER_DEPLOY.md](RENDER_DEPLOY.md) for step-by-step deployment instruction
 
 ## Backup
 
-Automated database backups run weekly via GitHub Actions. See [docs/BACKUP.md](docs/BACKUP.md) for complete documentation.
+Automated database backups run every 5 days via GitHub Actions. See [docs/BACKUP.md](docs/BACKUP.md) for complete documentation.
 
-- **Schedule:** Every Sunday at midnight UTC
+- **Schedule:** Every 5 days at midnight UTC (prevents Supabase pausing)
 - **Storage:** GitHub Releases (keeps last 10 backups)
 - **Format:** CSV files in ZIP archives
 - **Manual Trigger:** Available from GitHub Actions UI
