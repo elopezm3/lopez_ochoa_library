@@ -98,6 +98,15 @@ See [RENDER_DEPLOY.md](RENDER_DEPLOY.md) for step-by-step deployment instruction
 3. Set `RAILS_MASTER_KEY` environment variable (from `config/master.key`)
 4. Deploy!
 
+## Backup
+
+Automated database backups run weekly via GitHub Actions. See [docs/BACKUP.md](docs/BACKUP.md) for complete documentation.
+
+- **Schedule:** Every Sunday at midnight UTC
+- **Storage:** GitHub Releases (keeps last 10 backups)
+- **Format:** CSV files in ZIP archives
+- **Manual Trigger:** Available from GitHub Actions UI
+
 ## Usage
 
 ### Books
