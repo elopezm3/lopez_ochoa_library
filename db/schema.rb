@@ -11,6 +11,23 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.2].define(version: 2025_12_26_224657) do
+  create_schema "auth"
+  create_schema "extensions"
+  create_schema "graphql"
+  create_schema "graphql_public"
+  create_schema "pgbouncer"
+  create_schema "realtime"
+  create_schema "storage"
+  create_schema "vault"
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_graphql"
+  enable_extension "pg_stat_statements"
+  enable_extension "pgcrypto"
+  enable_extension "plpgsql"
+  enable_extension "supabase_vault"
+  enable_extension "uuid-ossp"
+
   create_table "autores", force: :cascade do |t|
     t.string "nombre"
     t.string "apellido"
@@ -19,7 +36,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_26_224657) do
   end
 
   create_table "copias", force: :cascade do |t|
-    t.integer "libro_id", null: false
+    t.bigint "libro_id", null: false
     t.string "prestamo"
     t.date "fecha"
     t.datetime "created_at", null: false
@@ -29,7 +46,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_26_224657) do
 
   create_table "libros", force: :cascade do |t|
     t.string "titulo"
-    t.integer "autor_id", null: false
+    t.bigint "autor_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["autor_id"], name: "index_libros_on_autor_id"

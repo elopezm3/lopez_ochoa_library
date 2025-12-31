@@ -1,0 +1,19 @@
+# Render Blueprint Configuration
+# Deploy with one click: https://render.com/deploy
+
+services:
+  - type: web
+    name: lopez-ochoa-library
+    runtime: ruby
+    buildCommand: bundle install && rails assets:precompile && rails db:migrate
+    startCommand: bundle exec puma -C config/puma.rb
+    envVars:
+      - key: RAILS_MASTER_KEY
+        sync: false  # Set manually in Render dashboard
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_SERVE_STATIC_FILES
+        value: "true"
+      - key: RAILS_LOG_TO_STDOUT
+        value: "true"
+
