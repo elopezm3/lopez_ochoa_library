@@ -2,6 +2,8 @@
 
 A Rails-based library management system for tracking books, authors, and copies with loan functionality.
 
+**🌐 Live Application:** [https://lopez-ochoa-library.onrender.com/](https://lopez-ochoa-library.onrender.com/)
+
 ## Features
 
 - 📚 **Books Management**: CRUD operations for books with automatic copy creation
@@ -83,7 +85,11 @@ This application uses **Supabase** (PostgreSQL) as the database. See [SUPABASE_S
 
 ## Deployment
 
-This app is configured for deployment on **Render**. See [RENDER_DEPLOY.md](RENDER_DEPLOY.md) for step-by-step deployment instructions.
+This app is deployed on **Render** and is live at:
+
+**🌐 Production URL:** [https://lopez-ochoa-library.onrender.com/](https://lopez-ochoa-library.onrender.com/)
+
+See [RENDER_DEPLOY.md](RENDER_DEPLOY.md) for step-by-step deployment instructions.
 
 ### Quick Deploy to Render
 

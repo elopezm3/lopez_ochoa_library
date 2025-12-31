@@ -91,7 +91,9 @@ If you prefer to use an environment variable instead of Rails credentials for th
 
 | Key | Value |
 |-----|-------|
-| `DATABASE_URL` | `postgresql://postgres:[PASSWORD]@[PROJECT-REF].supabase.co:5432/postgres` |
+| `DATABASE_URL` | `postgresql://postgres.[PROJECT-REF]:[PASSWORD]@aws-0-[REGION].pooler.supabase.com:6543/postgres` |
+
+**Important:** Use the **Session Pooler** connection string (port 6543) from Supabase, not Direct connection. Render doesn't support IPv6 and Direct connection may resolve to IPv6.
 
 **Note:** If `DATABASE_URL` is set, it takes priority over Rails credentials.
 
@@ -134,7 +136,7 @@ Render will:
 
 Once deployed:
 
-1. Click on your service URL (e.g., `https://lopez-ochoa-library.onrender.com`)
+1. Click on your service URL: **https://lopez-ochoa-library.onrender.com/**
 2. Verify the app loads correctly
 3. Test basic functionality (view books, authors, etc.)
 
@@ -159,15 +161,45 @@ Make sure `pg` gem is in your Gemfile:
 gem "pg", "~> 1.5"
 ```
 
-### Database Connection Error
+### Database Connection Error: "Network is unreachable" (IPv6 Error)
 
-1. Verify `RAILS_MASTER_KEY` is set correctly
+If you see an error like:
+```
+connection to server at "2600:1f13:..." port 5432 failed: Network is unreachable
+```
+
+**This is an IPv6 issue.** Render doesn't support IPv6, but Supabase's "Direct connection" resolves to IPv6.
+
+**Solution: Use Supabase Session Pooler instead:**
+
+1. In Supabase Dashboard → **Settings** → **Database**
+2. In **Connection string** section, select **"Session pooler"** (not Direct connection)
+3. Copy the new URI - it looks like:
+   ```
+   postgresql://postgres.[PROJECT-REF]:[PASSWORD]@aws-0-[REGION].pooler.supabase.com:6543/postgres
+   ```
+   
+   Note the differences:
+   - Username: `postgres.[PROJECT-REF]` (includes project ref)
+   - Host: `aws-0-[REGION].pooler.supabase.com` (pooler host)
+   - Port: `6543` (not 5432)
+
+4. Update Rails credentials:
+   ```bash
+   EDITOR="code --wait" rails credentials:edit
+   ```
+   ```yaml
+   database:
+     url: postgresql://postgres.[PROJECT-REF]:[PASSWORD]@aws-0-[REGION].pooler.supabase.com:6543/postgres
+   ```
+
+5. Commit, push, and redeploy
+
+### Other Database Connection Errors
+
+1. Verify `RAILS_MASTER_KEY` is set correctly in Render
 2. Check your Supabase connection string in credentials
-3. Ensure Supabase allows connections from any IP (or add Render's IPs)
-
-To allow all IPs in Supabase:
-- Go to **Settings** → **Database** → **Connection Pooling**
-- Check if "Allowed IPs" is set to allow all or add Render's IP ranges
+3. Ensure Supabase allows connections from any IP
 
 ### Assets Not Loading
 

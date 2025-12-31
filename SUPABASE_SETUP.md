@@ -17,14 +17,27 @@ This guide will help you configure Supabase as the database for the Biblioteca L
 
 1. In your Supabase project dashboard, go to **Settings** → **Database**
 2. Scroll down to **Connection string** section
-3. **Select "Direct connection"** (this is the recommended option for Rails applications)
-   - Direct connection is ideal for Rails apps running on traditional servers, VMs, or containers
-   - Transaction pooler is only needed for serverless deployments (like AWS Lambda, Vercel functions)
-   - Session pooler is an alternative to Direct Connection for IPv4 networks
-4. Copy the **URI** connection string from the "Direct connection" section (it looks like this):
-   ```
-   postgresql://postgres:[YOUR-PASSWORD]@[PROJECT-REF].supabase.co:5432/postgres
-   ```
+3. Choose the appropriate connection type:
+
+### For Local Development: Use "Direct connection"
+```
+postgresql://postgres:[YOUR-PASSWORD]@db.[PROJECT-REF].supabase.co:5432/postgres
+```
+
+### For Render (or other IPv4-only hosts): Use "Session pooler"
+
+**Important:** Render doesn't support IPv6, and Direct connection may resolve to IPv6. Use Session pooler instead:
+
+```
+postgresql://postgres.[PROJECT-REF]:[YOUR-PASSWORD]@aws-0-[REGION].pooler.supabase.com:6543/postgres
+```
+
+Note the differences:
+- **Username**: `postgres.[PROJECT-REF]` (includes your project reference)
+- **Host**: `aws-0-[REGION].pooler.supabase.com` (pooler host, not db.xxx)
+- **Port**: `6543` (not 5432)
+
+4. Copy the appropriate **URI** connection string based on your deployment target
 
 ## Step 3: Configure Your Rails App with Rails Credentials
 
@@ -115,6 +128,20 @@ If it shows the database version, you're connected!
 - Consider using Supabase's connection pooling for production
 
 ## Troubleshooting
+
+### "prepared statement does not exist" Error
+
+If you see an error like:
+```
+PG::InvalidSqlStatementName: ERROR: prepared statement "a2" does not exist
+```
+
+This happens when using Supabase's Session Pooler (transaction mode) with Rails prepared statements. The fix is already applied in `config/database.yml`:
+
+```yaml
+production:
+  prepared_statements: false
+```
 
 ### Connection Refused
 - Check that your IP is allowed in Supabase (Settings → Database → Connection Pooling)

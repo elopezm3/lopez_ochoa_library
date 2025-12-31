@@ -19,6 +19,9 @@ test:
 
 # Production configuration for Supabase
 # Can use credentials or DATABASE_URL environment variable (for hosting platforms)
+# prepared_statements: false is REQUIRED when using Supabase Session Pooler
+# (pooler uses transaction mode which doesn't persist prepared statements)
 production:
   <<: *default
   url: <%= ENV.fetch("DATABASE_URL") { Rails.application.credentials.dig(:database, :url) } %>
+  prepared_statements: false
